@@ -109,9 +109,13 @@ DROP PROCEDURE IF EXISTS convert_to_utf8mb4;
 
 ## Alternative — preview statements before executing
 
-If you prefer to review every `ALTER TABLE` before running it:
+If you prefer to review every statement before running it, generate them with:
 
 ```sql
+-- Step 1: change the database default (run this first, manually)
+ALTER DATABASE testdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Step 2: generate one ALTER TABLE per table, then copy-paste and execute
 SELECT CONCAT(
     'ALTER TABLE `', TABLE_NAME, '` ',
     'ROW_FORMAT=DYNAMIC, ',
@@ -123,7 +127,7 @@ WHERE TABLE_SCHEMA = 'testdb'
 ORDER BY TABLE_NAME;
 ```
 
-Copy the output, review it, then execute.
+Copy the generated output, review it, then execute.
 
 ---
 
